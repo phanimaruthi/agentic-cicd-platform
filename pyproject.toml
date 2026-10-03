@@ -1,0 +1,38 @@
+[project]
+name = "agentic-cicd"
+version = "0.3.0"
+description = "Typed, policy-bounded agentic CI/CD control plane foundation"
+requires-python = ">=3.11"
+readme = "README.md"
+authors = [{ name = "Arena Agent" }]
+dependencies = [
+  "pydantic>=2.0",
+  "typer>=0.9",
+  "PyYAML>=6.0",
+  "networkx>=3.0",
+  "rich>=13.0"
+]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn>=0.27"]
+test = ["pytest>=8.0"]
+
+[project.scripts]
+agentic-cicd = "agentic_cicd.cli:app"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+src = ["agentic_cicd", "tests"]
+
+[tool.mypy]
+python_version = "3.11"
+plugins = ["pydantic.mypy"]
+warn_unused_ignores = true
+warn_return_any = true
+warn_unused_configs = true
+strict_optional = true

@@ -1,0 +1,424 @@
+{
+  "schema_version": "v1",
+  "metadata": {
+    "id": "7f56bb04-8036-4eff-bba9-ef6340de0a74",
+    "name": "Generated CI pipeline",
+    "description": null,
+    "repository": "/home/user/samples/python_app",
+    "service": "python_app",
+    "created_by": "local-user",
+    "created_at": "2026-10-03T04:42:06.737129Z",
+    "labels": {}
+  },
+  "triggers": [
+    {
+      "type": "manual",
+      "branches": [],
+      "paths": [],
+      "schedule": null
+    },
+    {
+      "type": "push",
+      "branches": [
+        "main",
+        "master"
+      ],
+      "paths": [],
+      "schedule": null
+    }
+  ],
+  "variables": {
+    "REPOSITORY_NAME": "python_app"
+  },
+  "stages": [
+    {
+      "id": "source",
+      "name": "Source and discovery",
+      "type": "source",
+      "dependencies": [],
+      "steps": [
+        {
+          "id": "inspect_repository",
+          "type": "inspect",
+          "name": "Inspect repository",
+          "category": "source",
+          "runner": null,
+          "image": null,
+          "command": [
+            "python",
+            "-m",
+            "agentic_cicd.cli",
+            "discover",
+            ".",
+            "--json"
+          ],
+          "environment": {},
+          "secrets": [],
+          "inputs": {},
+          "outputs": {},
+          "artifacts": [],
+          "cache": [],
+          "resources": {
+            "cpu": null,
+            "memory_mb": null,
+            "timeout_seconds": null
+          },
+          "timeout_seconds": 600,
+          "retries": 0,
+          "conditions": [],
+          "security_context": {},
+          "failure_strategy": "fail_fast",
+          "risk": "SAFE",
+          "required_capabilities": {
+            "os": [],
+            "architecture": [],
+            "tools": [
+              "python",
+              "agentic-cicd-internal"
+            ],
+            "network_access": null,
+            "cloud_access": null,
+            "docker": null,
+            "kubernetes": null,
+            "privileged": null,
+            "min_cpu": null,
+            "min_memory_mb": null,
+            "gpu": null,
+            "security_level": null,
+            "max_cost_per_minute": null
+          },
+          "depends_on": [],
+          "side_effects": [],
+          "idempotency_key": null
+        }
+      ],
+      "strategy": "sequential",
+      "conditions": [],
+      "timeout_seconds": 1800,
+      "failure_strategy": "fail_fast"
+    },
+    {
+      "id": "quality",
+      "name": "Quality checks",
+      "type": "quality",
+      "dependencies": [
+        "source"
+      ],
+      "steps": [
+        {
+          "id": "install_dependencies",
+          "type": "install_dependencies",
+          "name": "Install Python dependencies",
+          "category": "build",
+          "runner": null,
+          "image": null,
+          "command": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            "."
+          ],
+          "environment": {},
+          "secrets": [],
+          "inputs": {},
+          "outputs": {},
+          "artifacts": [],
+          "cache": [],
+          "resources": {
+            "cpu": null,
+            "memory_mb": null,
+            "timeout_seconds": null
+          },
+          "timeout_seconds": 600,
+          "retries": 0,
+          "conditions": [],
+          "security_context": {},
+          "failure_strategy": "fail_fast",
+          "risk": "LOW_RISK",
+          "required_capabilities": {
+            "os": [],
+            "architecture": [],
+            "tools": [
+              "python"
+            ],
+            "network_access": null,
+            "cloud_access": null,
+            "docker": null,
+            "kubernetes": null,
+            "privileged": null,
+            "min_cpu": null,
+            "min_memory_mb": null,
+            "gpu": null,
+            "security_level": null,
+            "max_cost_per_minute": null
+          },
+          "depends_on": [],
+          "side_effects": [],
+          "idempotency_key": null
+        },
+        {
+          "id": "lint",
+          "type": "lint",
+          "name": "Python syntax/compile check",
+          "category": "test",
+          "runner": null,
+          "image": null,
+          "command": [
+            "python",
+            "-m",
+            "compileall",
+            "-q",
+            "."
+          ],
+          "environment": {},
+          "secrets": [],
+          "inputs": {},
+          "outputs": {},
+          "artifacts": [],
+          "cache": [],
+          "resources": {
+            "cpu": null,
+            "memory_mb": null,
+            "timeout_seconds": null
+          },
+          "timeout_seconds": 600,
+          "retries": 0,
+          "conditions": [],
+          "security_context": {},
+          "failure_strategy": "fail_fast",
+          "risk": "SAFE",
+          "required_capabilities": {
+            "os": [],
+            "architecture": [],
+            "tools": [
+              "python"
+            ],
+            "network_access": null,
+            "cloud_access": null,
+            "docker": null,
+            "kubernetes": null,
+            "privileged": null,
+            "min_cpu": null,
+            "min_memory_mb": null,
+            "gpu": null,
+            "security_level": null,
+            "max_cost_per_minute": null
+          },
+          "depends_on": [],
+          "side_effects": [],
+          "idempotency_key": null
+        }
+      ],
+      "strategy": "sequential",
+      "conditions": [],
+      "timeout_seconds": 1800,
+      "failure_strategy": "fail_fast"
+    },
+    {
+      "id": "test",
+      "name": "Tests",
+      "type": "test",
+      "dependencies": [
+        "source"
+      ],
+      "steps": [
+        {
+          "id": "unit_tests",
+          "type": "unit_test",
+          "name": "Run pytest unit tests",
+          "category": "test",
+          "runner": null,
+          "image": null,
+          "command": [
+            "python",
+            "-m",
+            "pytest",
+            "-q"
+          ],
+          "environment": {},
+          "secrets": [],
+          "inputs": {},
+          "outputs": {},
+          "artifacts": [],
+          "cache": [],
+          "resources": {
+            "cpu": null,
+            "memory_mb": null,
+            "timeout_seconds": null
+          },
+          "timeout_seconds": 600,
+          "retries": 0,
+          "conditions": [],
+          "security_context": {},
+          "failure_strategy": "fail_fast",
+          "risk": "SAFE",
+          "required_capabilities": {
+            "os": [],
+            "architecture": [],
+            "tools": [
+              "python"
+            ],
+            "network_access": null,
+            "cloud_access": null,
+            "docker": null,
+            "kubernetes": null,
+            "privileged": null,
+            "min_cpu": null,
+            "min_memory_mb": null,
+            "gpu": null,
+            "security_level": null,
+            "max_cost_per_minute": null
+          },
+          "depends_on": [],
+          "side_effects": [],
+          "idempotency_key": null
+        }
+      ],
+      "strategy": "sequential",
+      "conditions": [],
+      "timeout_seconds": 1800,
+      "failure_strategy": "fail_fast"
+    },
+    {
+      "id": "security",
+      "name": "Security",
+      "type": "security",
+      "dependencies": [
+        "source"
+      ],
+      "steps": [
+        {
+          "id": "secret_scan",
+          "type": "secret_scan",
+          "name": "Secret scan",
+          "category": "security",
+          "runner": null,
+          "image": null,
+          "command": [
+            "python",
+            "-m",
+            "agentic_cicd.tools.secret_scan",
+            "."
+          ],
+          "environment": {},
+          "secrets": [],
+          "inputs": {},
+          "outputs": {},
+          "artifacts": [],
+          "cache": [],
+          "resources": {
+            "cpu": null,
+            "memory_mb": null,
+            "timeout_seconds": null
+          },
+          "timeout_seconds": 600,
+          "retries": 0,
+          "conditions": [],
+          "security_context": {},
+          "failure_strategy": "fail_fast",
+          "risk": "SAFE",
+          "required_capabilities": {
+            "os": [],
+            "architecture": [],
+            "tools": [
+              "python",
+              "agentic-cicd-internal"
+            ],
+            "network_access": null,
+            "cloud_access": null,
+            "docker": null,
+            "kubernetes": null,
+            "privileged": null,
+            "min_cpu": null,
+            "min_memory_mb": null,
+            "gpu": null,
+            "security_level": null,
+            "max_cost_per_minute": null
+          },
+          "depends_on": [],
+          "side_effects": [],
+          "idempotency_key": null
+        },
+        {
+          "id": "generate_sbom",
+          "type": "sbom",
+          "name": "Generate lightweight SBOM",
+          "category": "security",
+          "runner": null,
+          "image": null,
+          "command": [
+            "python",
+            "-m",
+            "agentic_cicd.tools.sbom",
+            "."
+          ],
+          "environment": {},
+          "secrets": [],
+          "inputs": {},
+          "outputs": {},
+          "artifacts": [],
+          "cache": [],
+          "resources": {
+            "cpu": null,
+            "memory_mb": null,
+            "timeout_seconds": null
+          },
+          "timeout_seconds": 600,
+          "retries": 0,
+          "conditions": [],
+          "security_context": {},
+          "failure_strategy": "fail_fast",
+          "risk": "SAFE",
+          "required_capabilities": {
+            "os": [],
+            "architecture": [],
+            "tools": [
+              "python",
+              "agentic-cicd-internal"
+            ],
+            "network_access": null,
+            "cloud_access": null,
+            "docker": null,
+            "kubernetes": null,
+            "privileged": null,
+            "min_cpu": null,
+            "min_memory_mb": null,
+            "gpu": null,
+            "security_level": null,
+            "max_cost_per_minute": null
+          },
+          "depends_on": [],
+          "side_effects": [],
+          "idempotency_key": null
+        }
+      ],
+      "strategy": "sequential",
+      "conditions": [],
+      "timeout_seconds": 1800,
+      "failure_strategy": "fail_fast"
+    }
+  ],
+  "policies": [
+    "baseline-rbac",
+    "command-safety",
+    "secret-masking",
+    "deployment-gates"
+  ],
+  "approvals": [],
+  "environments": [],
+  "dependencies": [],
+  "execution_strategy": {
+    "mode": "dag",
+    "max_parallelism": 4,
+    "environment_locks": [],
+    "cancel_in_progress": false,
+    "retry_transient_failures": true,
+    "max_agent_runtime_seconds": 3600,
+    "max_tool_calls": 100,
+    "max_model_cost_usd": 1.0,
+    "max_pipeline_runtime_seconds": 7200
+  },
+  "autonomy_level": "LEVEL_1_DETERMINISTIC"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "baseline-policy",
+  "version": "0.1.0",
+  "decisions": ["ALLOW", "DENY", "REQUIRES_APPROVAL", "REQUIRES_REVIEW", "WARN"],
+  "rules": [
+    "production deployments require approval",
+    "destructive commands are denied by default",
+    "deployment pipelines require a security scan",
+    "secrets are referenced using secret:// and masked in logs"
+  ]
+}

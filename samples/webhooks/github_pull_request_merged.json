@@ -1,0 +1,18 @@
+{
+  "action": "closed",
+  "number": 42,
+  "repository": {
+    "full_name": "local/sample-python-app",
+    "name": "sample-python-app",
+    "default_branch": "main"
+  },
+  "pull_request": {
+    "number": 42,
+    "title": "Improve sample application delivery flow",
+    "merged": true,
+    "user": { "login": "local-developer" },
+    "head": { "ref": "feature/agentic-cicd-demo", "sha": "local-demo-sha" },
+    "base": { "ref": "main" },
+    "labels": [ { "name": "deploy-staging" } ]
+  }
+}

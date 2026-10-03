@@ -1,0 +1,26 @@
+{
+  "waves": [
+    {
+      "index": 0,
+      "task_ids": [
+        "inspect_repository"
+      ]
+    },
+    {
+      "index": 1,
+      "task_ids": [
+        "generate_sbom",
+        "install_dependencies",
+        "lint",
+        "secret_scan"
+      ]
+    },
+    {
+      "index": 2,
+      "task_ids": [
+        "unit_tests"
+      ]
+    }
+  ],
+  "max_parallelism": 4
+}

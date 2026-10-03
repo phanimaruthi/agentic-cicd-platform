@@ -1,0 +1,1 @@
+"""Golden-path template registry."""

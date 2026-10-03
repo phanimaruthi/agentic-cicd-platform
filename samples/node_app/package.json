@@ -1,0 +1,12 @@
+{
+  "name": "sample-node-app",
+  "version": "0.1.0",
+  "scripts": {
+    "lint": "node -c src/index.js",
+    "test": "node --test",
+    "build": "node -e \"console.log('build ok')\""
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

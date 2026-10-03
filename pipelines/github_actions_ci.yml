@@ -1,0 +1,62 @@
+name: Generated CI pipeline
+'on':
+  workflow_dispatch: {}
+  push:
+    branches:
+    - main
+    - master
+permissions:
+  contents: read
+jobs:
+  source:
+    name: Source and discovery
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Inspect repository
+      run: python -m agentic_cicd.cli discover . --json
+      timeout-minutes: 10
+  quality:
+    name: Quality checks
+    runs-on: ubuntu-latest
+    needs:
+    - source
+    timeout-minutes: 30
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Install Python dependencies
+      run: python -m pip install -e .
+      timeout-minutes: 10
+    - name: Python syntax/compile check
+      run: python -m compileall -q .
+      timeout-minutes: 10
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    needs:
+    - source
+    timeout-minutes: 30
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Run pytest unit tests
+      run: python -m pytest -q
+      timeout-minutes: 10
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    needs:
+    - source
+    timeout-minutes: 30
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Secret scan
+      run: python -m agentic_cicd.tools.secret_scan .
+      timeout-minutes: 10
+    - name: Generate lightweight SBOM
+      run: python -m agentic_cicd.tools.sbom .
+      timeout-minutes: 10

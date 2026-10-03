@@ -1,0 +1,7 @@
+{
+  "scenario": "transient test runner failure",
+  "task_id": "unit_tests",
+  "stderr": "simulated transient network failure",
+  "expected_category": "flaky_transient",
+  "expected_remediation": "bounded_retry"
+}

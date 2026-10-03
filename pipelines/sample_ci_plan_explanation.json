@@ -1,0 +1,26 @@
+{
+  "target": "python_app",
+  "environment": null,
+  "change": "Generate and validate CI pipeline",
+  "dependencies": [
+    "pip/pyproject",
+    "python-build",
+    "docker"
+  ],
+  "pipeline": [
+    "Source and discovery",
+    "Quality checks",
+    "Tests",
+    "Security"
+  ],
+  "runner": "selected later by capability matching",
+  "security_checks": [
+    "Secret scan",
+    "Generate lightweight SBOM"
+  ],
+  "approvals": [],
+  "blast_radius": "Derived from repository services and knowledge graph; local repository scope in this phase",
+  "rollback": "No concrete deployment backend configured; rollback is NOT_IMPLEMENTED for real deployments",
+  "verification": [],
+  "risks": []
+}
